@@ -1,0 +1,270 @@
+@font-face {
+    font-family: "Godfather";
+    src: url(Fonts/Godfather.ttf)
+}
+
+@font-face {
+    font-family: "Goodfellas";
+    src: url(Fonts/Goodfellas.otf)
+}
+
+
+h1.logo {
+    font-family: "Godfather";
+    color: white;
+    font-weight: 400;
+    font-size: 50px;
+    white-space: nowrap;
+    
+}
+
+li.navFont {
+    font-family: "Goodfellas";
+    color: white;
+    font-weight: 400;
+    font-size: 20px;
+}
+
+body {
+    background: rgb(2, 73, 80);
+}
+
+.search {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+}
+
+.child
+{
+    width: 16px;
+    height: 16px;
+}
+
+#list {
+    display: grid;
+    grid-template-columns: 400px 400px 400px 400px;
+    row-gap: 10px;
+    ;
+    justify-content: center;
+    padding-top: 5em;
+}
+
+#poster {
+    height: 500px;
+    width: 360px;
+    padding-top: 5em;
+}
+
+/* Header+Nav styles */
+
+:root {
+    --background: rgba(2, 73, 80, 0.8);
+}
+
+header {
+    background: var(--background);
+    text-align: center;
+    position: fixed;
+    width: 100%;
+    z-index: 999;
+    top: 0;
+}
+
+.nav-toggle {
+    display: none;
+}
+
+nav {
+    position: absolute;
+    text-align: left;
+    top: 100%;
+    left: 0;
+    background: var(--background);
+    width: 100%;
+    transform: scale(1, 0);
+    transform-origin: top;
+    transition: transform 400ms ease-in-out;
+}
+
+nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+nav li {
+    margin-bottom: 1em;
+    margin-left: 1em;
+}
+
+nav a {
+
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    opacity: 0;
+    transition: opacity 150ms ease-in-out;
+}
+
+nav a:hover {
+    color: #964734;
+}
+
+.nav-toggle:checked~nav {
+    transform: scale(1, 1);
+}
+
+.nav-toggle:checked~nav a {
+    opacity: 1;
+    transition: opacity 250ms ease-in-out 250ms;
+
+}
+
+.nav-toggle-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-left: 1em;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.nav-toggle-label span,
+.nav-toggle-label span::before,
+.nav-toggle-label span::after {
+    display: block;
+    background: white;
+    height: 2px;
+    width: 2em;
+    border-radius: 2px;
+    position: relative;
+}
+
+.nav-toggle-label span::before,
+.nav-toggle-label span::after {
+    content: '';
+    position: absolute;
+}
+
+.nav-toggle-label span::before {
+    bottom: 7px;
+}
+
+.nav-toggle-label span::after {
+    top: 7px;
+}
+
+@media screen and (min-width: 800px) {
+    .nav-toggle-label {
+        display: none;
+    }
+
+    header {
+        display: grid;
+        grid-template-columns: 1fr auto minmax(600px, 3fr) 1fr;
+    }
+
+    .logo {
+        grid-column: 2 / 3;
+    }
+
+    nav {
+        all: unset;
+        grid-column: 3 / 4;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    nav ul {
+        display: flex;
+    }
+
+    nav li {
+        margin-left: 3em;
+        margin-bottom: 0;
+    }
+
+    nav a {
+        opacity: 1;
+        position: relative;
+    }
+
+    nav a::before {
+        content: '';
+        display: block;
+        height: 5px;
+        background: black;
+        position: absolute;
+        top: -.75em;
+        left: 0;
+        right: 0;
+        transform: scale(0, 1);
+        transform-origin: left;
+        transition: transform ease-in-out 250ms;
+    }
+
+    nav a:hover::before {
+        transform: scale(1, 1);
+    }
+}
+
+/* Scroll styles */
+.cover {
+    position: relative;
+    padding: 0px 30px;
+    margin-top: 100px;
+}
+
+.left {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    height: 50%;
+}
+
+.right {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    height: 50%;
+}
+
+.scroll-images {
+    position: relative;
+    width: 100%;
+
+    /* Set as same height as scroll-child */
+    height: 400px;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    /* background-color: red; */
+}
+
+.scroll-child {
+    display: flex;
+    padding: 1em;
+    height: 100%;
+    /* border: 1px solid #f1f1f1; */
+}
+
+.scroll-images::-webkit-scrollbar {
+    width: 5px;
+    height: 8px;
+    background-color: #aaa;
+}
+
+.scroll-images::-webkit-scrollbar-thumb {
+    background-color: black;
+}
