@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search</title>
+    <link rel="stylesheet" href="film-styles.css">
+</head>
+<body>
+    <header>
+        <h1 class="logo">Film Recommendation</h1>
+        <input type="checkbox" id="nav-toggle" class="nav-toggle">
+        <nav>
+            <ul>
+                <li class="navFont"><a href="main.html">Popular</a></li>
+                <li class="navFont"><a href="#about">About</a></li>
+                <li class="navFont"><a href="#reviews">Reviews</a></li>
+                <li>
+                    <div class="search">
+                        <input type="text" id="filmTitle">
+                        <button onclick="getFilm('https://api.themoviedb.org/3/search/movie?query=' + document.getElementById('filmTitle').value, search)">Search</button>
+                    </div>>
+                </li>
+            </ul>
+        </nav>
+        <label for="nav-toggle" class="nav-toggle-label">
+            <span>
+            </span>
+        </label>
+    </header>
+    <div id="list"></div>
+</body>
+<script>
+    const title = localStorage.getItem("title");
+
+    getFilm('https://api.themoviedb.org/3/search/movie?query=' + title, search);
+    localStorage.removeItem("title");
+    async function getFilm(url, func) {
+        const options = {
+            method: 'GET',
+            headers: {
+                accept: 'application/json',
+                Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzODhlNDU5N2I0M2IyMGY2ZjIxNDQ0Y2IwYWQ4ZTAzOCIsInN1YiI6IjY2NmIxYTI5NTk1YjgwZmQ4NzcwYWI1ZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.lCzJLS8U3zgnIgjYN5TEBbIHahlEgu--fS4FUNzECyU'
+            }
+        };
+        try {
+            clear();
+            const response = await fetch(url, options);
+            if (!response.ok) {
+                throw new Error(response.message);
+            }
+            const films = await response.json();
+            console.log(films);
+
+            if (films.total_results !== 0) {
+                for (const film of films.results) {
+                    func(film);
+                }
+            }
+            else {
+                console.log("No films found");
+            }
+        }
+        catch (err) {
+            console.error(err);
+        }
+    }
+
+    function clear() {
+        document.querySelectorAll("#poster")
+            .forEach(img => img.remove());
+    }
+    function search(film) {
+        const image = document.createElement("img");
+        image.src = "https://image.tmdb.org/t/p/original/" + film.poster_path;
+        image.id = "poster";
+        const list = document.getElementById("list");
+        list.appendChild(image);
+        const header = document.createElement("h3");
+        header.innerText = film.original_title;
+    }
+</script>
+</html>
