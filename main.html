@@ -23,7 +23,7 @@
                         <input type="text" id="filmTitle">
                         <button
                             onclick="search(document.getElementById('filmTitle').value)">Search</button>
-                    </div>>
+                    </div>
                 </li>
             </ul>
         </nav>
@@ -57,7 +57,6 @@
             }
         };
         try {
-            clear();
             const response = await fetch(url, options);
             if (!response.ok) {
                 throw new Error(response.message);
@@ -77,11 +76,6 @@
         catch (err) {
             console.error(err);
         }
-    }
-
-    function clear() {
-        document.querySelectorAll("#poster")
-            .forEach(img => img.remove());
     }
     function search(title) {
         localStorage.setItem("title", title);

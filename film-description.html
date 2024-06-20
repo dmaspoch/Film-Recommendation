@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Film</title>
+    <link rel="stylesheet" href="film-styles.css">
+</head>
+
+<body>
+    <header>
+        <h1 class="logo">Film Recommendation</h1>
+        <input type="checkbox" id="nav-toggle" class="nav-toggle">
+        <nav>
+            <ul>
+                <li class="navFont"><a href="main.html">Popular</a></li>
+                <li class="navFont"><a href="#about">About</a></li>
+                <li class="navFont"><a href="#reviews">Reviews</a></li>
+                <li>
+                    <div class="search">
+                        <input type="text" id="filmTitle">
+                        <button onclick="search(document.getElementById('filmTitle').value)">Search</button>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+        <label for="nav-toggle" class="nav-toggle-label">
+            <span>
+            </span>
+        </label>
+    </header>
+    <div id="description"></div>
+    <div id ="info"></div>
+</body>
+<script>
+    const title = localStorage.getItem("title");
+    const id = localStorage.getItem("id");
+    getFilm('https://api.themoviedb.org/3/movie/' + id + 'language=en-US&append_to_response=credits', createDescription);
+    getFilm('https://api.themoviedb.org/3/movie/' + id + '/credits?language=en-US', createCrew);
+
+    function search(title) {
+        localStorage.setItem("title", title);
+        window.open("search.html", "_self");
+    }
+
+    async function getFilm(url, func) {
+        const options = {
+            method: 'GET',
+            headers: {
+                accept: 'application/json',
+                Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzODhlNDU5N2I0M2IyMGY2ZjIxNDQ0Y2IwYWQ4ZTAzOCIsInN1YiI6IjY2NmIxYTI5NTk1YjgwZmQ4NzcwYWI1ZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.lCzJLS8U3zgnIgjYN5TEBbIHahlEgu--fS4FUNzECyU'
+            }
+        };
+        try {
+            const response = await fetch(url, options);
+            if (!response.ok) {
+                throw new Error(response.message);
+            }
+            const film = await response.json();
+
+            if (film !== null) {
+                console.log(film);
+                func(film);
+            }
+            else {
+                console.log("No films found");
+            }
+        }
+        catch (err) {
+            console.error(err);
+        }
+    }
+
+    function createDescription(film) {
+        const description = document.getElementById("description");
+
+        // Creates poster
+        const imageContainer = document.createElement("div");
+        imageContainer.id = "film-poster";
+        const img = document.createElement("img");
+        img.src = "https://image.tmdb.org/t/p/original/" + film.poster_path;
+        imageContainer.appendChild(img);
+        description.appendChild(imageContainer);
+
+        // Create title
+        const info = document.createElement("div");
+        info.id = "info";
+        const header = document.createElement("h1");
+        header.textContent = film.title;
+        info.appendChild(header);
+
+        // Create classifications info
+        const classifications = document.createElement("div");
+        classifications.id = "groupClassifications";
+
+        // Create runtime info
+        const runtime = document.createElement("div");
+        runtime.id = "item";
+        runtime.textContent = film.runtime + " mins";
+        classifications.appendChild(runtime);
+
+        // Create release date info
+        const releaseDate = document.createElement("div");
+        releaseDate.id = "item";
+        releaseDate.textContent = film.release_date;
+        classifications.appendChild(releaseDate);
+
+        //Create genre info
+        const genre = document.createElement("div");
+        genre.id = "item";
+        for (let i = 0; i < film.genres.length; i++)
+        {
+            if (i !== 0) genre.textContent += "/";
+            genre.textContent += film.genres[i].name + "";
+        }
+            classifications.appendChild(genre);
+        
+
+        info.appendChild(classifications);
+
+        // Create overview
+        const overview = document.createElement("p");
+        overview.textContent = film.overview;
+        info.appendChild(overview);
+
+        description.appendChild(info);
+    }
+
+    function createCrew(film)
+    {
+        const description = document.getElementById("description");
+        const info = document.getElementById("info");
+        
+        // Create director info
+        let count = 0;
+        while (count < film.crew.length && film.crew[count].job !== "Director")
+        {
+            count++;
+        }
+        if (count < film.crew.length)
+        {
+            const director = document.createElement("p");
+            director.textContent = "Director: " + film.crew[count].name;
+            info.appendChild(director);        
+        }
+
+        const cast = document.createElement("div");
+        cast.id = "group";
+        cast.textContent = "Cast: ";
+        let i = 0;
+        while (film.cast[i] !== null && i < 3)
+        {
+            if (i !== 0) cast.textContent += ", ";
+            cast.textContent += film.cast[i].name;
+            i++;
+        }
+            info.appendChild(cast);
+    }
+</script>
+
+</html>

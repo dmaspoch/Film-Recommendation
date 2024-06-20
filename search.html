@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,6 +8,7 @@
     <title>Search</title>
     <link rel="stylesheet" href="film-styles.css">
 </head>
+
 <body>
     <header>
         <h1 class="logo">Film Recommendation</h1>
@@ -19,8 +21,9 @@
                 <li>
                     <div class="search">
                         <input type="text" id="filmTitle">
-                        <button onclick="getFilm('https://api.themoviedb.org/3/search/movie?query=' + document.getElementById('filmTitle').value, search)">Search</button>
-                    </div>>
+                        <button
+                            onclick="getFilm('https://api.themoviedb.org/3/search/movie?query=' + document.getElementById('filmTitle').value, search)">Search</button>
+                    </div>
                 </li>
             </ul>
         </nav>
@@ -29,13 +32,23 @@
             </span>
         </label>
     </header>
+    <div id="error" style="display: none">
+        <p>404 ERROR</p>
+        <p>These are not the films you are looking for</p>
+    </div>
     <div id="list"></div>
 </body>
 <script>
     const title = localStorage.getItem("title");
 
-    getFilm('https://api.themoviedb.org/3/search/movie?query=' + title, search);
-    localStorage.removeItem("title");
+    const error = document.getElementById("error");
+    if (title !== null) {
+        getFilm('https://api.themoviedb.org/3/search/movie?query=' + title, search);
+    }
+    else {
+        error.style.display = "flex";
+    }
+    console.log(title);
     async function getFilm(url, func) {
         const options = {
             method: 'GET',
@@ -54,11 +67,13 @@
             console.log(films);
 
             if (films.total_results !== 0) {
+                error.style.display = "none";
                 for (const film of films.results) {
                     func(film);
                 }
             }
             else {
+                error.style.display = "flex";
                 console.log("No films found");
             }
         }
@@ -72,13 +87,21 @@
             .forEach(img => img.remove());
     }
     function search(film) {
+        const button = document.createElement("button");
+        button.id = "search-button";
         const image = document.createElement("img");
-        image.src = "https://image.tmdb.org/t/p/original/" + film.poster_path;
-        image.id = "poster";
+       image.src = "https://image.tmdb.org/t/p/original/" + film.poster_path;
+       button.appendChild(image);
+        image.id = "button-poster";
         const list = document.getElementById("list");
-        list.appendChild(image);
-        const header = document.createElement("h3");
-        header.innerText = film.original_title;
+        button.onclick = function()
+        {
+            localStorage.setItem("title", film.original_title);
+            localStorage.setItem("id", film.id);
+            window.open("film-description.html", "_self");
+        }
+        list.appendChild(button);
     }
 </script>
+
 </html>
