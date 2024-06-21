@@ -247,7 +247,6 @@ nav a:hover {
 .cover {
     position: relative;
     padding: 0px 30px;
-    margin-top: 100px;
 }
 
 .left {
@@ -285,8 +284,8 @@ nav a:hover {
 
 .scroll-button {
     padding: 1em;
-    height: 500px;
-    width: 360px;
+    /* height: 500px;
+    width: 360px; */
     cursor: pointer;
     background-position: 100% 100%;
     background-size: contain;
@@ -309,6 +308,34 @@ nav a:hover {
 
 .scroll-images::-webkit-scrollbar-thumb {
     background-color: black;
+}
+
+/* Recommendations */
+.scroll-recommended {
+    display: flex;
+    position: relative;
+    /* Set as same height as scroll-child */
+    height: 250px;
+    width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    /* background-color: red; */
+}
+
+.recommended
+{
+    width: 180px;
+    height: 250px;
+}
+
+.rec-cover {
+    position: relative;
+    padding: 0px 30px;
+    margin-top: 1em;
 }
 
 /* FILM DESCRIPTION */

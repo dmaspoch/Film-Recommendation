@@ -76,7 +76,7 @@
             console.error(err);
         }
     }
-    function search(title) {
+    async function search(title) {
         localStorage.setItem("title", title);
         window.open("search.html", "_self");
         // image.src = "https://image.tmdb.org/t/p/original/" + poster;

@@ -32,15 +32,25 @@
         </label>
     </header>
     <div id="description"></div>
-    <div id ="info"></div>
+    <div class="rec-cover">
+        <button class="left">
+            <i class="fas fa-angle-double-left"></i>
+        </button>
+        <div class="scroll-recommended">
+        </div>
+        <button class="right">
+            <i class="fas fa-angle-double-right"></i>
+        </button>
+    </div>
 </body>
 <script>
     const title = localStorage.getItem("title");
     const id = localStorage.getItem("id");
     getFilm('https://api.themoviedb.org/3/movie/' + id + 'language=en-US&append_to_response=credits', createDescription);
     getFilm('https://api.themoviedb.org/3/movie/' + id + '/credits?language=en-US', createCrew);
+    getRecommendations('https://api.themoviedb.org/3/movie/' + id + '/recommendations?language=en-US&page=1');
 
-    function search(title) {
+    async function search(title) {
         localStorage.setItem("title", title);
         window.open("search.html", "_self");
     }
@@ -73,7 +83,35 @@
         }
     }
 
-    function createDescription(film) {
+    async function getRecommendations(url) {
+        const options = {
+            method: 'GET',
+            headers: {
+                accept: 'application/json',
+                Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzODhlNDU5N2I0M2IyMGY2ZjIxNDQ0Y2IwYWQ4ZTAzOCIsInN1YiI6IjY2NmIxYTI5NTk1YjgwZmQ4NzcwYWI1ZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.lCzJLS8U3zgnIgjYN5TEBbIHahlEgu--fS4FUNzECyU'
+            }
+        };
+        try {
+            const response = await fetch(url, options);
+            if (!response.ok) {
+                throw new Error(response.message);
+            }
+            const films = await response.json();
+
+            if (films.total_results !== 0) {
+                for (const film of films.results) {
+                    createRecommendations(film);
+                }
+            }
+            else {
+                console.log("No films found");
+            }
+        }
+        catch (err) {
+            console.error(err);
+        }
+    }
+    async function createDescription(film) {
         const description = document.getElementById("description");
 
         // Creates poster
@@ -110,13 +148,12 @@
         //Create genre info
         const genre = document.createElement("div");
         genre.id = "item";
-        for (let i = 0; i < film.genres.length; i++)
-        {
+        for (let i = 0; i < film.genres.length; i++) {
             if (i !== 0) genre.textContent += "/";
             genre.textContent += film.genres[i].name + "";
         }
-            classifications.appendChild(genre);
-        
+        classifications.appendChild(genre);
+
 
         info.appendChild(classifications);
 
@@ -128,36 +165,93 @@
         description.appendChild(info);
     }
 
-    function createCrew(film)
-    {
+    async function createCrew(film) {
         const description = document.getElementById("description");
         const info = document.getElementById("info");
-        
+
         // Create director info
         let count = 0;
-        while (count < film.crew.length && film.crew[count].job !== "Director")
-        {
+        while (count < film.crew.length && film.crew[count].job !== "Director") {
             count++;
         }
-        if (count < film.crew.length)
-        {
+        if (count < film.crew.length) {
             const director = document.createElement("p");
             director.textContent = "Director: " + film.crew[count].name;
-            info.appendChild(director);        
+            info.appendChild(director);
         }
 
         const cast = document.createElement("div");
         cast.id = "group";
         cast.textContent = "Cast: ";
         let i = 0;
-        while (film.cast[i] !== null && i < 3)
-        {
+        while (film.cast[i] !== null && i < 3) {
             if (i !== 0) cast.textContent += ", ";
             cast.textContent += film.cast[i].name;
             i++;
         }
-            info.appendChild(cast);
+        info.appendChild(cast);
     }
+    async function createRecommendations(film) {
+        const scrollImages = document.querySelector(".scroll-recommended");
+        const button = document.createElement("button");
+        button.className = "scroll-button";
+        scrollImages.appendChild(button);
+
+        const image = document.createElement("img");
+        image.src = "https://image.tmdb.org/t/p/original/" + film.poster_path;
+        image.className = "recommended";
+        button.appendChild(image);
+
+        button.onclick = function () {
+            localStorage.setItem("title", film.original_title);
+            localStorage.setItem("id", film.id);
+            window.open("film-description.html", "_self");
+        }
+        scrollImages.appendChild(button);
+    }
+
+    // Scroll
+    document.addEventListener("DOMContentLoaded", function () {
+        const scrollImages = document.querySelector(".scroll-recommended");
+        const scrollLength = scrollImages.scrollWidth - scrollImages.clientWidth;
+        const leftButton = document.querySelector(".left");
+        const rightButton = document.querySelector(".right");
+
+        function checkScroll() {
+            const currentScroll = scrollImages.scrollLeft;
+            if (currentScroll === 0) {
+                leftButton.setAttribute("disabled", "true");
+                rightButton.removeAttribute("disabled");
+            } else if (currentScroll === scrollLength) {
+                rightButton.setAttribute("disabled", "true");
+                leftButton.removeAttribute("disabled");
+            } else {
+                leftButton.removeAttribute("disabled");
+                rightButton.removeAttribute("disabled");
+            }
+        }
+
+        scrollImages.addEventListener("scroll", checkScroll);
+        window.addEventListener("resize", checkScroll);
+        checkScroll();
+
+        function leftScroll() {
+            scrollImages.scrollBy({
+                left: -200,
+                behavior: "smooth"
+            });
+        }
+
+        function rightScroll() {
+            scrollImages.scrollBy({
+                left: 200,
+                behavior: "smooth"
+            });
+        }
+
+        leftButton.addEventListener("click", leftScroll);
+        rightButton.addEventListener("click", rightScroll);
+    });
 </script>
 
 </html>

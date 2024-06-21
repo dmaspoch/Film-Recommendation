@@ -82,11 +82,11 @@
         }
     }
 
-    function clear() {
+    async function clear() {
         document.querySelectorAll("#poster")
             .forEach(img => img.remove());
     }
-    function search(film) {
+    async function search(film) {
         const button = document.createElement("button");
         button.id = "search-button";
         const image = document.createElement("img");
