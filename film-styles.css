@@ -267,13 +267,13 @@ nav a:hover {
     cursor: pointer;
     height: 50%;
 }
-
 .scroll-images {
+    display: flex;
     position: relative;
-    width: 100%;
-
+    margin-top: 7.7em;
     /* Set as same height as scroll-child */
-    height: 400px;
+    height: 500px;
+    width: 100%;
     display: flex;
     flex-wrap: nowrap;
     overflow-x: hidden;
@@ -283,11 +283,22 @@ nav a:hover {
     /* background-color: red; */
 }
 
-.scroll-child {
-    display: flex;
+.scroll-button {
     padding: 1em;
-    height: 100%;
+    height: 500px;
+    width: 360px;
+    cursor: pointer;
+    background-position: 100% 100%;
+    background-size: contain;
+    border: transparent;
+    padding: 0;
     /* border: 1px solid #f1f1f1; */
+}
+
+.scroll-poster
+{
+    width: 360px;
+    height: 500px;
 }
 
 .scroll-images::-webkit-scrollbar {
