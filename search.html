@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search</title>
     <link rel="stylesheet" href="film-styles.css">
+    <script src="app.js"></script>
 </head>
 
 <body>
@@ -39,66 +40,31 @@
     <div id="list"></div>
 </body>
 <script>
-    const title = localStorage.getItem("title");
+    let params = new URL(document.location).searchParams;
+    const title = params.get("title");
 
     const error = document.getElementById("error");
     if (title !== null) {
-        getFilm('https://api.themoviedb.org/3/search/movie?query=' + title, search);
+        getFilms('https://api.themoviedb.org/3/search/movie?query=' + title, createSearch);
     }
     else {
         error.style.display = "flex";
-    }
-    console.log(title);
-    async function getFilm(url, func) {
-        const options = {
-            method: 'GET',
-            headers: {
-                accept: 'application/json',
-                Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzODhlNDU5N2I0M2IyMGY2ZjIxNDQ0Y2IwYWQ4ZTAzOCIsInN1YiI6IjY2NmIxYTI5NTk1YjgwZmQ4NzcwYWI1ZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.lCzJLS8U3zgnIgjYN5TEBbIHahlEgu--fS4FUNzECyU'
-            }
-        };
-        try {
-            clear();
-            const response = await fetch(url, options);
-            if (!response.ok) {
-                throw new Error(response.message);
-            }
-            const films = await response.json();
-            console.log(films);
-
-            if (films.total_results !== 0) {
-                error.style.display = "none";
-                for (const film of films.results) {
-                    func(film);
-                }
-            }
-            else {
-                error.style.display = "flex";
-                console.log("No films found");
-            }
-        }
-        catch (err) {
-            console.error(err);
-        }
     }
 
     async function clear() {
         document.querySelectorAll("#poster")
             .forEach(img => img.remove());
     }
-    async function search(film) {
+    async function createSearch(film) {
         const button = document.createElement("button");
         button.id = "search-button";
         const image = document.createElement("img");
-       image.src = "https://image.tmdb.org/t/p/original/" + film.poster_path;
-       button.appendChild(image);
+        image.src = "https://image.tmdb.org/t/p/original/" + film.poster_path;
+        button.appendChild(image);
         image.id = "button-poster";
         const list = document.getElementById("list");
-        button.onclick = function()
-        {
-            localStorage.setItem("title", film.original_title);
-            localStorage.setItem("id", film.id);
-            window.open("film-description.html", "_self");
+        button.onclick = function () {
+            location.assign(`${location.origin}/film-description.html?id=${film.id}`);
         }
         list.appendChild(button);
     }

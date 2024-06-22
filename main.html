@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Main Page</title>
     <link rel="stylesheet" href="film-styles.css">
+    <script src="app.js"></script>
 </head>
 
 <body>
@@ -31,73 +32,26 @@
             </span>
         </label>
     </header>
-    <div class="cover">
-        <button class="left">
-            <i class="fas fa-angle-double-left"></i>
-        </button>
-        <div class="scroll-images">
+    <div class="content">
+        <div class="scroll-container">
+            <button class="left">
+                <i class="fas fa-angle-double-left"></i>
+            </button>
+            <div class="scroll-images">
+            </div>
+            <button class="right">
+                <i class="fas fa-angle-double-right"></i>
+            </button>
         </div>
-        <button class="right">
-            <i class="fas fa-angle-double-right"></i>
-        </button>
     </div>
-    <div id="list"></div>
+    <!-- <div id="list"></div> -->
 
 </body>
 
 <script>
-    getFilm('https://api.themoviedb.org/3/movie/popular?language=en-US&page=1', createPopular);
-    async function getFilm(url, func) {
-        const options = {
-            method: 'GET',
-            headers: {
-                accept: 'application/json',
-                Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzODhlNDU5N2I0M2IyMGY2ZjIxNDQ0Y2IwYWQ4ZTAzOCIsInN1YiI6IjY2NmIxYTI5NTk1YjgwZmQ4NzcwYWI1ZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.lCzJLS8U3zgnIgjYN5TEBbIHahlEgu--fS4FUNzECyU'
-            }
-        };
-        try {
-            const response = await fetch(url, options);
-            if (!response.ok) {
-                throw new Error(response.message);
-            }
-            const films = await response.json();
-            console.log(films);
+    getFilms('https://api.themoviedb.org/3/movie/popular?language=en-US&page=1', createPopular);
 
-            if (films.total_results !== 0) {
-                for (const film of films.results) {
-                    func(film);
-                }
-            }
-            else {
-                console.log("No films found");
-            }
-        }
-        catch (err) {
-            console.error(err);
-        }
-    }
-    async function search(title) {
-        localStorage.setItem("title", title);
-        window.open("search.html", "_self");
-        // image.src = "https://image.tmdb.org/t/p/original/" + poster;
-
-        // const button = document.createElement("button");
-        // button.innerHTML = image;
-        // button.id = id;
-        // button.addEventListener("click", selectMovie);
-
-        // const container = document.createElement("div");
-        // container.appendChild(header);
-        // container.appendChild(button);
-
-        // const item = document.createElement("li");
-        // item.appendChild(container);
-
-        // const list = document.getElementById("list");
-        // list.appendChild(item);
-    }
-
-    async function createPopular(film) {
+    function createPopular(film) {
         const scrollImages = document.querySelector(".scroll-images");
         const button = document.createElement("button");
         button.className = "scroll-button";
@@ -109,27 +63,9 @@
         button.appendChild(image);
 
         button.onclick = function () {
-            localStorage.setItem("title", film.original_title);
-            localStorage.setItem("id", film.id);
-            window.open("film-description.html", "_self");
+            location.assign(`${location.origin}/film-description.html?id=${film.id}`);
         }
         scrollImages.appendChild(button);
-    }
-
-    async function selectMovie() {
-        const id = this.id;
-        const options = {
-            method: 'GET',
-            headers: {
-                accept: 'application/json',
-                Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzODhlNDU5N2I0M2IyMGY2ZjIxNDQ0Y2IwYWQ4ZTAzOCIsInN1YiI6IjY2NmIxYTI5NTk1YjgwZmQ4NzcwYWI1ZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.lCzJLS8U3zgnIgjYN5TEBbIHahlEgu--fS4FUNzECyU'
-            }
-        };
-
-        fetch('https://api.themoviedb.org/3/movie/' + id + '/recommendations?language=en-US&page=1', options)
-            .then(response => response.json())
-            .then(response => console.log(response))
-            .catch(err => console.error(err));
     }
 
     // Scroll
@@ -139,40 +75,12 @@
         const leftButton = document.querySelector(".left");
         const rightButton = document.querySelector(".right");
 
-        function checkScroll() {
-            const currentScroll = scrollImages.scrollLeft;
-            if (currentScroll === 0) {
-                leftButton.setAttribute("disabled", "true");
-                rightButton.removeAttribute("disabled");
-            } else if (currentScroll === scrollLength) {
-                rightButton.setAttribute("disabled", "true");
-                leftButton.removeAttribute("disabled");
-            } else {
-                leftButton.removeAttribute("disabled");
-                rightButton.removeAttribute("disabled");
-            }
-        }
+        scrollImages.addEventListener("scroll", () => checkScroll(scrollImages, scrollLength, leftButton, rightButton));
+        window.addEventListener("resize", () => checkScroll(scrollImages, scrollLength, leftButton, rightButton));
+        checkScroll(scrollImages, scrollLength, leftButton, rightButton);
 
-        scrollImages.addEventListener("scroll", checkScroll);
-        window.addEventListener("resize", checkScroll);
-        checkScroll();
-
-        function leftScroll() {
-            scrollImages.scrollBy({
-                left: -200,
-                behavior: "smooth"
-            });
-        }
-
-        function rightScroll() {
-            scrollImages.scrollBy({
-                left: 200,
-                behavior: "smooth"
-            });
-        }
-
-        leftButton.addEventListener("click", leftScroll);
-        rightButton.addEventListener("click", rightScroll);
+        leftButton.addEventListener("click", () => leftScroll(scrollImages));
+        rightButton.addEventListener("click", () => rightScroll(scrollImages));
     });
 
 

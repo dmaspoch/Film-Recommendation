@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Film</title>
     <link rel="stylesheet" href="film-styles.css">
+    <script src="app.js"></script>
 </head>
 
 <body>
@@ -31,28 +32,43 @@
             </span>
         </label>
     </header>
-    <div id="description"></div>
-    <div class="rec-cover">
-        <button class="left">
-            <i class="fas fa-angle-double-left"></i>
-        </button>
-        <div class="scroll-recommended">
+    <div class="content">
+        <div id="description"></div>
+        <div class="scroll-container">
+            <button class="left">
+                <i class="fas fa-angle-double-left"></i>
+            </button>
+            <div class="scroll-recommended">
+            </div>
+            <button class="right">
+                <i class="fas fa-angle-double-right"></i>
+            </button>
         </div>
-        <button class="right">
-            <i class="fas fa-angle-double-right"></i>
-        </button>
     </div>
 </body>
 <script>
-    const title = localStorage.getItem("title");
-    const id = localStorage.getItem("id");
-    getFilm('https://api.themoviedb.org/3/movie/' + id + 'language=en-US&append_to_response=credits', createDescription);
-    getFilm('https://api.themoviedb.org/3/movie/' + id + '/credits?language=en-US', createCrew);
-    getRecommendations('https://api.themoviedb.org/3/movie/' + id + '/recommendations?language=en-US&page=1');
+    document.addEventListener("DOMContentLoaded", async function () {
+        let params = new URL(document.location).searchParams;
+        const id = params.get("id");
+        await getFilm('https://api.themoviedb.org/3/movie/' + id + 'language=en-US&append_to_response=credits', createDescription);
+        await getFilm('https://api.themoviedb.org/3/movie/' + id + '/credits?language=en-US', createCrew);
+        await getFilms('https://api.themoviedb.org/3/movie/' + id + '/recommendations?language=en-US&page=1', createRecommendations);
 
-    async function search(title) {
-        localStorage.setItem("title", title);
-        window.open("search.html", "_self");
+        const scrollImages = document.querySelector(".scroll-recommended");
+        const scrollLength = scrollImages.scrollWidth - scrollImages.clientWidth;
+        const leftButton = document.querySelector(".left");
+        const rightButton = document.querySelector(".right");
+
+        scrollImages.addEventListener("scroll", () => checkScroll(scrollImages, scrollLength, leftButton, rightButton));
+        window.addEventListener("resize", () => checkScroll(scrollImages, scrollLength, leftButton, rightButton));
+        checkScroll(scrollImages, scrollLength, leftButton, rightButton);
+
+        leftButton.addEventListener("click", () => leftScroll(scrollImages));
+        rightButton.addEventListener("click", () => rightScroll(scrollImages));
+
+    });
+    function search(title) {
+        location.assign(`${location.origin}/search.html?title=${title}`);
     }
 
     async function getFilm(url, func) {
@@ -71,37 +87,7 @@
             const film = await response.json();
 
             if (film !== null) {
-                console.log(film);
                 func(film);
-            }
-            else {
-                console.log("No films found");
-            }
-        }
-        catch (err) {
-            console.error(err);
-        }
-    }
-
-    async function getRecommendations(url) {
-        const options = {
-            method: 'GET',
-            headers: {
-                accept: 'application/json',
-                Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzODhlNDU5N2I0M2IyMGY2ZjIxNDQ0Y2IwYWQ4ZTAzOCIsInN1YiI6IjY2NmIxYTI5NTk1YjgwZmQ4NzcwYWI1ZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.lCzJLS8U3zgnIgjYN5TEBbIHahlEgu--fS4FUNzECyU'
-            }
-        };
-        try {
-            const response = await fetch(url, options);
-            if (!response.ok) {
-                throw new Error(response.message);
-            }
-            const films = await response.json();
-
-            if (films.total_results !== 0) {
-                for (const film of films.results) {
-                    createRecommendations(film);
-                }
             }
             else {
                 console.log("No films found");
@@ -203,55 +189,10 @@
         button.appendChild(image);
 
         button.onclick = function () {
-            localStorage.setItem("title", film.original_title);
-            localStorage.setItem("id", film.id);
-            window.open("film-description.html", "_self");
+            location.assign(`${location.origin}${location.pathname}?id=${film.id}`);
         }
         scrollImages.appendChild(button);
     }
-
-    // Scroll
-    document.addEventListener("DOMContentLoaded", function () {
-        const scrollImages = document.querySelector(".scroll-recommended");
-        const scrollLength = scrollImages.scrollWidth - scrollImages.clientWidth;
-        const leftButton = document.querySelector(".left");
-        const rightButton = document.querySelector(".right");
-
-        function checkScroll() {
-            const currentScroll = scrollImages.scrollLeft;
-            if (currentScroll === 0) {
-                leftButton.setAttribute("disabled", "true");
-                rightButton.removeAttribute("disabled");
-            } else if (currentScroll === scrollLength) {
-                rightButton.setAttribute("disabled", "true");
-                leftButton.removeAttribute("disabled");
-            } else {
-                leftButton.removeAttribute("disabled");
-                rightButton.removeAttribute("disabled");
-            }
-        }
-
-        scrollImages.addEventListener("scroll", checkScroll);
-        window.addEventListener("resize", checkScroll);
-        checkScroll();
-
-        function leftScroll() {
-            scrollImages.scrollBy({
-                left: -200,
-                behavior: "smooth"
-            });
-        }
-
-        function rightScroll() {
-            scrollImages.scrollBy({
-                left: 200,
-                behavior: "smooth"
-            });
-        }
-
-        leftButton.addEventListener("click", leftScroll);
-        rightButton.addEventListener("click", rightScroll);
-    });
 </script>
 
 </html>

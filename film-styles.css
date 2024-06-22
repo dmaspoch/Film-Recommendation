@@ -44,10 +44,6 @@ li.navFont {
     font-size: 20px;
 }
 
-html, body {
-    height: 100%;
-    
-}
 
 .search {
     display: flex;
@@ -90,7 +86,7 @@ html, body {
 /* Header+Nav styles */
 
 :root {
-    --background: rgba(76, 80, 2, 0.8);
+    --background: rgb(2, 71, 80);
 }
 
 header {
@@ -246,7 +242,7 @@ nav a:hover {
 /* Scroll styles */
 .cover {
     position: relative;
-    padding: 0px 30px;
+    
 }
 
 .left {
@@ -269,10 +265,8 @@ nav a:hover {
 .scroll-images {
     display: flex;
     position: relative;
-    margin-top: 7.7em;
     /* Set as same height as scroll-child */
     height: 500px;
-    width: 100%;
     display: flex;
     flex-wrap: nowrap;
     overflow-x: hidden;
@@ -316,7 +310,6 @@ nav a:hover {
     position: relative;
     /* Set as same height as scroll-child */
     height: 250px;
-    width: 100%;
     display: flex;
     flex-wrap: nowrap;
     overflow-x: hidden;
@@ -332,7 +325,7 @@ nav a:hover {
     height: 250px;
 }
 
-.rec-cover {
+.scroll-container {
     position: relative;
     padding: 0px 30px;
     margin-top: 1em;
@@ -341,9 +334,6 @@ nav a:hover {
 /* FILM DESCRIPTION */
 #description {
     display: flex;
-    padding-top: 7.25em;
-    height: auto;
-    margin: auto;
     width: 75%;
     align-self: center;
     justify-content: center;
@@ -358,10 +348,18 @@ nav a:hover {
     background: linear-gradient(rgba(255, 255, 255, .95), rgba(255, 255, 255, .95), url("images/background.jpg"));
 } */
 
+.content
+{
+    padding: 50px 0;
+    gap: 10px;
+    margin-top: 125px;
+    display: flex;
+    flex-direction: column;
+}
 #film-poster {
     display: flex;
-    width: 576px;
-    height: 720px;
+    width: 238px;
+    height: 360px;
 }
 
 #info {
