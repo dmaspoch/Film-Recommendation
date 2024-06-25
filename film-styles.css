@@ -1,6 +1,14 @@
+@import url("https://api.fontshare.com/v2/css?f[]=archivo@100,200,300,400,500,600,700,800,900&f[]=clash-display@200,300,400,500,600,700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;500;600&display=swap');
+
 @font-face {
     font-family: "Godfather";
     src: url(Fonts/Godfather.ttf)
+}
+
+@font-face {
+    font-family: "Sematary";
+    src: url(Fonts/Sematary.ttf)
 }
 
 @font-face {
@@ -12,6 +20,21 @@
     font-family: "Star";
     src: url(Fonts/DeathStar.otf)
 }
+
+a
+{
+    text-decoration: none;
+}
+
+.main-text
+{
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    font-weight: 400;
+    font-size: 2.5rem;
+}
+
 
 #error {
     font-family: "Star";
@@ -86,7 +109,7 @@ li.navFont {
 /* Header+Nav styles */
 
 :root {
-    --background: rgb(2, 71, 80);
+    --background: rgb(6, 41, 83);
 }
 
 header {
@@ -136,7 +159,7 @@ nav a {
 }
 
 nav a:hover {
-    color: #964734;
+    color: rgb(173, 216, 230);
 }
 
 .nav-toggle:checked~nav {
@@ -242,26 +265,34 @@ nav a:hover {
 /* Scroll styles */
 .cover {
     position: relative;
-    
+
 }
 
 .left {
-    position: absolute;
     left: 0;
+    transition: left 0.5s;
+}
+
+.right {
+    right: 0;
+    transition: right 0.5s;
+}
+
+.left,
+.right {
+    position: absolute;
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
     height: 50%;
 }
 
-.right {
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-    height: 50%;
+.scroll-container {
+    position: relative;
+    padding: 0px 30px;
+    margin-top: 1em;
 }
+
 .scroll-images {
     display: flex;
     position: relative;
@@ -273,7 +304,7 @@ nav a:hover {
     overflow-y: hidden;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
-    /* background-color: red; */
+
 }
 
 .scroll-button {
@@ -285,11 +316,17 @@ nav a:hover {
     background-size: contain;
     border: transparent;
     padding: 0;
+
     /* border: 1px solid #f1f1f1; */
 }
 
-.scroll-poster
-{
+.scroll-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+}
+
+.scroll-poster {
     width: 360px;
     height: 500px;
 }
@@ -319,16 +356,9 @@ nav a:hover {
     /* background-color: red; */
 }
 
-.recommended
-{
+.recommended {
     width: 180px;
     height: 250px;
-}
-
-.scroll-container {
-    position: relative;
-    padding: 0px 30px;
-    margin-top: 1em;
 }
 
 /* FILM DESCRIPTION */
@@ -337,6 +367,7 @@ nav a:hover {
     width: 75%;
     align-self: center;
     justify-content: center;
+    font-family: 'Lato', sans-serif;
     /* background: linear-gradient(rgba(255, 255, 255, .85), rgba(255, 255, 255, .85)), url("background.jpg"); */
 }
 
@@ -348,19 +379,20 @@ nav a:hover {
     background: linear-gradient(rgba(255, 255, 255, .95), rgba(255, 255, 255, .95), url("images/background.jpg"));
 } */
 
-.content
-{
+.content {
     padding: 50px 0;
     gap: 10px;
     margin-top: 125px;
     display: flex;
     flex-direction: column;
 }
+
 #film-poster {
     display: flex;
     width: 238px;
     height: 360px;
 }
+
 
 #info {
     color: black;
@@ -379,8 +411,7 @@ nav a:hover {
     flex-direction: row;
 }
 
-#groupClassifications
-{
+#groupClassifications {
     display: flex;
     flex-direction: row;
     color: grey;
@@ -390,7 +421,13 @@ nav a:hover {
     padding-right: 0.75rem;
 }
 
-#cast-subtitle
-{
+#cast-subtitle {
     font-weight: 600;
+}
+
+.subtitle
+{
+    font-family: 'Lato', bold, sans-serif;
+    font-size: 1.5rem;
+    padding-bottom: 0.5rem;
 }

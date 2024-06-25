@@ -47,14 +47,14 @@ function checkScroll(scroller, scrollLength, leftButton, rightButton) {
 
 function leftScroll(scroller) {
     scroller.scrollBy({
-        left: -200,
+        left: -900,
         behavior: "smooth"
     });
 }
 
 function rightScroll(scroller) {
     scroller.scrollBy({
-        left: 200,
+        left: 900,
         behavior: "smooth"
     });
 }
