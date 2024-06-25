@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Main Page</title>
     <link rel="stylesheet" href="film-styles.css">
+    <link rel = "stylesheet" href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <script src="app.js"></script>
 </head>
 
@@ -20,9 +21,12 @@
                 <li class="navFont"><a href="#about">About</a></li>
                 <li class="navFont"><a href="#reviews">Reviews</a></li>
                 <li>
-                    <div class="search">
-                        <input type="text" id="filmTitle">
-                        <button onclick="search(document.getElementById('filmTitle').value)">Search</button>
+                    <div class="search-bar">
+                        <input type = "text" id = "filmTitle" class = "search-bar_input" 
+                        placeholder = "Enter a Film Name" aria-label = "search"/>
+                        <button onclick="search(document.getElementById('filmTitle').value)" class = "search-bar_submit"><i class = "fas fa-search" aria-label = "submit search"></i></button>
+                        <!-- <input type="text" id="filmTitle">
+                        <button onclick="search(document.getElementById('filmTitle').value)">Search</button> -->
                     </div>
                 </li>
             </ul>

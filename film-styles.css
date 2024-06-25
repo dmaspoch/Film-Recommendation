@@ -21,13 +21,11 @@
     src: url(Fonts/DeathStar.otf)
 }
 
-a
-{
+a {
     text-decoration: none;
 }
 
-.main-text
-{
+.main-text {
     font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
@@ -67,12 +65,76 @@ li.navFont {
     font-size: 20px;
 }
 
+.search-bar {
+    border: 2px solid rgb(47, 18, 235);
+    display: flex;
+    border-radius: 50px;
+    height: 1.25rem;
+    position: relative;
+    transition: width 300ms cubic-bezier(.18, .89, .32, 1.15);
+    overflow: hidden;
+}
 
-.search {
+.search-bar_input {
+    border: transparent;
+    flex-grow: 1;
+    border-radius: 100vh;
+    padding: 0 .5em;
+    /* font-size: 1.5rem; */
+    background: white;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    line-height: 47px;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.search-bar_input:focus {
+    outline: 0;
+}
+
+.search-bar:focus-within {
+    width: 625%;
+}
+
+.search-bar_submit {
+    /* font-size: 1.5rem; */
+    cursor: pointer;
+    background: transparent;
+    border-radius: 100vh;
+    width: 30px;
+    background: rgba(78, 186, 222);
+    margin-left: auto;
+    transition: background-color 150ms ease-in-out;
+}
+
+.search-bar:focus-within .search-bar_submit {
+    background: rgb(51, 99, 203);
+    color: white;
+  }
+
+  .search-bar:focus-within .search-bar_submit:focus, .search-bar:focus-within .search-bar_submit:hover
+  {
+    outline: 0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.35);
+  }
+
+  .search-bar:focus-within .search-bar_input
+  {
+    opacity: 1;
+    cursor: initial;
+  }
+
+
+
+
+/* .search {
     display: flex;
     gap: 5px;
     justify-content: center;
-}
+} */
 
 .child {
     width: 16px;
@@ -138,7 +200,6 @@ nav {
 }
 
 nav ul {
-    margin: 0;
     padding: 0;
     list-style: none;
 }
@@ -236,6 +297,7 @@ nav a:hover {
     nav li {
         margin-left: 3em;
         margin-bottom: 0;
+        /* padding: 0.4em; */
     }
 
     nav a {
@@ -425,8 +487,7 @@ nav a:hover {
     font-weight: 600;
 }
 
-.subtitle
-{
+.subtitle {
     font-family: 'Lato', bold, sans-serif;
     font-size: 1.5rem;
     padding-bottom: 0.5rem;
