@@ -15,12 +15,13 @@ async function getFilms(url, func) {
 
         if (films.total_results !== 0) {
             for (const film of films.results) {
-                console.log("Recommended: " + film.original_title);
                 func(film);
             }
         }
         else {
-            console.log("No films found");
+            // Search second page for results if first page returns 0
+            let newURL = url.substring(0, url.length - 1) + "2";
+            await getFilms(newURL, func);
         }
     }
     catch (err) {
