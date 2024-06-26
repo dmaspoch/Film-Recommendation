@@ -45,16 +45,37 @@ function checkScroll(scroller, scrollLength, leftButton, rightButton) {
     }
 }
 
-function leftScroll(scroller) {
-    scroller.scrollBy({
-        left: -900,
-        behavior: "smooth"
-    });
+function leftScroll(scroller) 
+{
+    if (screen.width >= 320 && screen.width < 800)
+    {
+        scroller.scrollBy({
+            left: -261,
+            behavior: "smooth"
+        });
+    }
+    else
+    {
+        scroller.scrollBy({
+            left: -900,
+            behavior: "smooth"
+        });
+    }
 }
 
 function rightScroll(scroller) {
-    scroller.scrollBy({
-        left: 900,
-        behavior: "smooth"
-    });
+    if (screen.width >= 320 && screen.width < 800)
+    {
+        scroller.scrollBy({
+            left: 261,
+            behavior: "smooth"
+        });
+    }
+    else
+    {
+        scroller.scrollBy({
+            left: 900,
+            behavior: "smooth"
+        });
+    }
 }
