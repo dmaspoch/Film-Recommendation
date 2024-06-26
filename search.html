@@ -7,32 +7,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search</title>
     <link rel="stylesheet" href="film-styles.css">
+    <link rel = "stylesheet" href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <script src="app.js"></script>
 </head>
 
 <body>
     <header>
-        <h1 class="logo">Film Recommendation</h1>
-        <input type="checkbox" id="nav-toggle" class="nav-toggle">
-        <nav>
-            <ul>
-                <li class="navFont"><a href="main.html">Popular</a></li>
-                <li class="navFont"><a href="#about">About</a></li>
-                <li class="navFont"><a href="#reviews">Reviews</a></li>
-                <li>
-                    <div class="search">
-                        <input type="text" id="filmTitle">
-                        <button
-                            onclick="getFilm('https://api.themoviedb.org/3/search/movie?query=' + document.getElementById('filmTitle').value, search)">Search</button>
-                    </div>
-                </li>
-            </ul>
-        </nav>
-        <label for="nav-toggle" class="nav-toggle-label">
-            <span>
-            </span>
-        </label>
-    </header>
+        <div class = "main-link"> <a href="main.html"><h1 class="logo">The Movie Database</h1></a></div>
+         <input type="checkbox" id="nav-toggle" class="nav-toggle">
+         <nav>
+             <ul>
+                 <li class="navFont"><a href="main.html">Popular</a></li>
+                 <li class="navFont"><a href="#about">About</a></li>
+                 <li class="navFont"><a href="#reviews">Reviews</a></li>
+             </ul>
+             <div class="search-bar">
+                 <input type = "text" id="filmTitle" class="search-bar_input" 
+                 placeholder="Enter a Film Name" aria-label="search"/>
+                 <button onclick="search(document.getElementById('filmTitle').value)" class="search-bar_submit"><i class = "fas fa-search" aria-label = "submit search"></i></button>
+             </div>
+         </nav>
+         <label for="nav-toggle" class="nav-toggle-label">
+             <span>
+             </span>
+         </label>
+     </header>
     <div id="error" style="display: none">
         <p>404 ERROR</p>
         <p>These are not the films you are looking for</p>
@@ -42,9 +41,8 @@
 <script>
     let params = new URL(document.location).searchParams;
     const title = params.get("title");
-
     const error = document.getElementById("error");
-    if (title !== null) {
+    if (title !== "") {
         getFilms('https://api.themoviedb.org/3/search/movie?query=' + title, createSearch);
     }
     else {

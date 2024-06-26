@@ -12,10 +12,10 @@ async function getFilms(url, func) {
             throw new Error(response.message);
         }
         const films = await response.json();
-        console.log(films);
 
         if (films.total_results !== 0) {
             for (const film of films.results) {
+                console.log("Recommended: " + film.original_title);
                 func(film);
             }
         }
@@ -45,16 +45,37 @@ function checkScroll(scroller, scrollLength, leftButton, rightButton) {
     }
 }
 
-function leftScroll(scroller) {
-    scroller.scrollBy({
-        left: -200,
-        behavior: "smooth"
-    });
+function leftScroll(scroller) 
+{
+    if (screen.width >= 320 && screen.width < 800)
+    {
+        scroller.scrollBy({
+            left: -261,
+            behavior: "smooth"
+        });
+    }
+    else
+    {
+        scroller.scrollBy({
+            left: -900,
+            behavior: "smooth"
+        });
+    }
 }
 
 function rightScroll(scroller) {
-    scroller.scrollBy({
-        left: 200,
-        behavior: "smooth"
-    });
+    if (screen.width >= 320 && screen.width < 800)
+    {
+        scroller.scrollBy({
+            left: 261,
+            behavior: "smooth"
+        });
+    }
+    else
+    {
+        scroller.scrollBy({
+            left: 900,
+            behavior: "smooth"
+        });
+    }
 }
