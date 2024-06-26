@@ -38,9 +38,11 @@ a {
     font-family: "Star";
     font-weight: 400;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    /* justify-content: center;
+    align-items: center;*/
     flex-direction: column;
+    height: 50px;
+    width: 50%;
     margin: 5em;
     color: black;
     font-size: 50px;
@@ -65,8 +67,8 @@ li.navFont {
 }
 
 .search-bar {
-    height: 60px;
-    width: 60px;
+    height: 30px;
+    width: 30px;
     padding: 3px;
     border: 2px solid rgb(18, 141, 235);
     display: flex;
@@ -97,16 +99,17 @@ li.navFont {
 }
 
 .search-bar_submit {
-    font-size: 1.5rem;
+    font-size: 1rem;
     /* margin-left: auto; */
     background: transparent;
     border: 0;
     cursor: pointer;
     border-radius: 50%;
     transition: background-color 200ms ease-out;
-    width: 50px;
-    height: 50px;
+    width: 20px;
+    height: 20px;
     color: white;
+    padding: 0;
 
 }
 
@@ -123,11 +126,10 @@ li.navFont {
     opacity: 1;
     cursor: initial;
     z-index: initial;
-    width: calc(100% - 60px);
+    width: calc(100% - 40px);
 }
 
 .search-bar:focus-within .search-bar_submit {
-    background: rgb(51, 99, 203);
     color: white;
 
     margin-left: auto;

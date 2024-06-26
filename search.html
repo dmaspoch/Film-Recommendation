@@ -14,28 +14,24 @@
 <body>
     <header>
         <div class = "main-link"> <a href="main.html"><h1 class="logo">The Movie Database</h1></a></div>
-        <input type="checkbox" id="nav-toggle" class="nav-toggle">
-        <nav>
-            <ul>
-                <li class="navFont"><a href="main.html">Popular</a></li>
-                <li class="navFont"><a href="#about">About</a></li>
-                <li class="navFont"><a href="#reviews">Reviews</a></li>
-                <li>
-                    <div class="search-bar">
-                        <input type = "text" id = "filmTitle" class = "search-bar_input" 
-                        placeholder = "Enter a Film Name" aria-label = "search"/>
-                        <button onclick="search(document.getElementById('filmTitle').value)" class = "search-bar_submit"><i class = "fas fa-search" aria-label = "submit search"></i></button>
-                        <!-- <input type="text" id="filmTitle">
-                        <button onclick="search(document.getElementById('filmTitle').value)">Search</button> -->
-                    </div>
-                </li>
-            </ul>
-        </nav>
-        <label for="nav-toggle" class="nav-toggle-label">
-            <span>
-            </span>
-        </label>
-    </header>
+         <input type="checkbox" id="nav-toggle" class="nav-toggle">
+         <nav>
+             <ul>
+                 <li class="navFont"><a href="main.html">Popular</a></li>
+                 <li class="navFont"><a href="#about">About</a></li>
+                 <li class="navFont"><a href="#reviews">Reviews</a></li>
+             </ul>
+             <div class="search-bar">
+                 <input type = "text" id="filmTitle" class="search-bar_input" 
+                 placeholder="Enter a Film Name" aria-label="search"/>
+                 <button onclick="search(document.getElementById('filmTitle').value)" class="search-bar_submit"><i class = "fas fa-search" aria-label = "submit search"></i></button>
+             </div>
+         </nav>
+         <label for="nav-toggle" class="nav-toggle-label">
+             <span>
+             </span>
+         </label>
+     </header>
     <div id="error" style="display: none">
         <p>404 ERROR</p>
         <p>These are not the films you are looking for</p>

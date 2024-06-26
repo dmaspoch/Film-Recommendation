@@ -12,10 +12,10 @@ async function getFilms(url, func) {
             throw new Error(response.message);
         }
         const films = await response.json();
-        console.log(films);
 
         if (films.total_results !== 0) {
             for (const film of films.results) {
+                console.log("Recommended: " + film.original_title);
                 func(film);
             }
         }
