@@ -60,7 +60,7 @@
         image.src = "https://image.tmdb.org/t/p/original/" + film.poster_path;
         if (image.src === "https://image.tmdb.org/t/p/original/null")
         {
-            const newImage = createImageWithTitle(film.original_title);
+            const newImage = createImageWithTitle(film.title);
             image.src = newImage.src;
         }
         button.appendChild(image);
