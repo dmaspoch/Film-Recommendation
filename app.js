@@ -15,12 +15,13 @@ async function getFilms(url, func) {
 
         if (films.total_results !== 0) {
             for (const film of films.results) {
-                console.log("Recommended: " + film.original_title);
                 func(film);
             }
         }
         else {
-            console.log("No films found");
+            // Search second page for results if first page returns 0
+            let newURL = url.substring(0, url.length - 1) + "2";
+            await getFilms(newURL, func);
         }
     }
     catch (err) {
@@ -79,3 +80,25 @@ function rightScroll(scroller) {
         });
     }
 }
+
+function createImageWithTitle(title) {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+  
+    canvas.width = 200; 
+    canvas.height = 150; 
+  
+    ctx.fillStyle = '#000'; 
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  
+    ctx.font = '12px Arial'; 
+    ctx.fillStyle = '#fff';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(title, canvas.width / 2, canvas.height / 2);
+  
+    // Convert canvas to image
+    const img = new Image();
+    img.src = canvas.toDataURL();
+    return img;
+  }

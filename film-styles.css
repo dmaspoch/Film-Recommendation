@@ -35,19 +35,19 @@ a {
 
 
 #error {
-    font-family: "Star";
-    font-weight: 400;
-    display: flex;
-    /* justify-content: center;
-    align-items: center;*/
-    flex-direction: column;
-    height: 50px;
-    width: 50%;
-    margin: 5em;
+    font-size: 2.5em;
+    font-family: Arial, sans-serif;
     color: black;
-    font-size: 50px;
-    line-height: 0rem;
-    border: 2px solid black;
+    text-align: center;
+    flex-direction: column;
+    font-weight: 400;
+
+    border: 5px solid;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px;
 }
 
 h1.logo {
@@ -142,14 +142,6 @@ li.navFont {
 
 }
 
-
-
-/* .search {
-    display: flex;
-    gap: 5px;
-    justify-content: center;
-} */
-
 .child {
     width: 16px;
     height: 16px;
@@ -180,6 +172,12 @@ li.navFont {
     background-size: contain;
     padding: 0;
     border: transparent;
+}
+
+#search-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
 }
 
 /* Header+Nav styles */
@@ -450,18 +448,18 @@ nav a:hover {
     #list {
         grid-template-columns: 260px;
     }
-    
+
     #button-poster {
         height: 380px;
         width: 260px;
     }
-    
+
     #search-button {
         height: 360px;
         width: 280px;
     }
-    
-    
+
+
     .main-text {
         text-align: center;
     }
@@ -615,10 +613,10 @@ nav a:hover {
 }
 
 @media screen and (min-width: 800px) {
-    .content
-    {
+    .content {
         margin-top: 100px;
     }
+
     .nav-toggle-label {
         display: none;
     }
@@ -682,12 +680,12 @@ nav a:hover {
         grid-template-columns: 300px 300px 300px;
         row-gap: 5px;
     }
-    
+
     #button-poster {
         height: 380px;
         width: 260px;
     }
-    
+
     #search-button {
         height: 360px;
         width: 280px;
@@ -695,10 +693,10 @@ nav a:hover {
 }
 
 @media screen and (min-width: 1024px) {
-    .content
-    {
+    .content {
         margin-top: 60px;
     }
+
     nav {
         grid-column: 3 / 4;
         margin: 0px;
@@ -710,8 +708,7 @@ nav a:hover {
         flex-direction: row;
     }
 
-    #info 
-    {
+    #info {
         margin: 1em;
         text-align: left;
     }
@@ -726,12 +723,12 @@ nav a:hover {
         grid-template-columns: 300px 300px 300px 300px;
         row-gap: 5px;
     }
-    
+
     #button-poster {
         height: 360px;
         width: 280px;
     }
-    
+
     #search-button {
         height: 360px;
         width: 280px;
