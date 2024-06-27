@@ -58,6 +58,11 @@
         button.id = "search-button";
         const image = document.createElement("img");
         image.src = "https://image.tmdb.org/t/p/original/" + film.poster_path;
+        if (image.src === "https://image.tmdb.org/t/p/original/null")
+        {
+            const newImage = createImageWithTitle(film.original_title);
+            image.src = newImage.src;
+        }
         button.appendChild(image);
         image.id = "button-poster";
         const list = document.getElementById("list");

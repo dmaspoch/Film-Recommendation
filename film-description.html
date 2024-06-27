@@ -107,6 +107,11 @@
         imageContainer.id = "film-poster";
         const img = document.createElement("img");
         img.src = "https://image.tmdb.org/t/p/original/" + film.poster_path;
+        if (img.src === "https://image.tmdb.org/t/p/original/null")
+        {
+            const newImage = createImageWithTitle(film.original_title);
+            img.src = newImage.src;
+        }
         imageContainer.appendChild(img);
         description.appendChild(imageContainer);
 
