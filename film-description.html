@@ -63,12 +63,6 @@
         rightButton.addEventListener("click", () => rightScroll(scrollImages));
 
     });
-    function search(title) {
-        let origin = getOrigin();
-        location.assign(`${origin}/film-recommendation/search.html?title=${title}`);
-        // location.assign(`${location.origin}/film-recommendation/search.html?title=${title}`);
-    }
-
     async function getFilm(url, func) {
         const options = {
             method: 'GET',

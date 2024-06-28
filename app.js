@@ -29,7 +29,8 @@ async function getFilms(url, func) {
     }
 }
 function search(title) {
-    location.assign(`${location.origin}/search.html?title=${title}`);
+    let origin = getOrigin();
+    location.assign(`${origin}/search.html?title=${title}`);
 }
 
 function checkScroll(scroller, scrollLength, leftButton, rightButton) {
