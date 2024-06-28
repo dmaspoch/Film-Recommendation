@@ -64,7 +64,9 @@
 
     });
     function search(title) {
-        location.assign(`${location.origin}/film-recommendation/search.html?title=${title}`);
+        let origin = getOrigin();
+        location.assign(`${origin}/film-recommendation/search.html?title=${title}`);
+        // location.assign(`${location.origin}/film-recommendation/search.html?title=${title}`);
     }
 
     async function getFilm(url, func) {

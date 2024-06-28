@@ -62,7 +62,9 @@
         image.id = "button-poster";
         const list = document.getElementById("list");
         button.onclick = function () {
-            location.assign(`${location.origin}/film-recommendation/film-description.html?id=${film.id}`);
+            let origin = getOrigin();
+            location.assign(`${origin}/film-recommendation/film-description.html?id=${film.id}`);
+            // location.assign(`${location.origin}/film-recommendation/film-description.html?id=${film.id}`);
         }
         list.appendChild(button);
     }

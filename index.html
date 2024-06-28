@@ -57,8 +57,9 @@
         button.appendChild(image);
 
         button.onclick = function () {
-            console.log(location.origin);
-            location.assign(`${location.origin}/film-recommendation/film-description.html?id=${film.id}`);
+            let origin = getOrigin();
+            location.assign(`${origin}/film-description.html?id=${film.id}`);
+            // location.assign(`${location.origin}/film-recommendation/film-description.html?id=${film.id}`);
         }
         scrollImages.appendChild(button);
     }

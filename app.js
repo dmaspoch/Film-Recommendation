@@ -102,3 +102,10 @@ function createImageWithTitle(title) {
     img.src = canvas.toDataURL();
     return img;
   }
+
+  function getOrigin()
+  {
+    let end = location.href.lastIndexOf("/");
+    let origin = location.href.substring(0, end);
+    return origin;
+  }
